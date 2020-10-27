@@ -1,6 +1,6 @@
 # Speaker Accent Detection using SVMs
 
-This code reproduces the material presented in the report at the link [LINK]
+This code reproduces the material presented in the report at the link [https://github.com/unipa-bigdata/gallea-svm-accent-detection/blob/master/speaker_accent_detection_using_SVMs.pdf](https://github.com/unipa-bigdata/gallea-svm-accent-detection/blob/master/speaker_accent_detection_using_SVMs.pdf)
 
 It contains the following python files:
 - `main.ppynb`: notebook file, run this to produce full results in terms of summary tables and images.
