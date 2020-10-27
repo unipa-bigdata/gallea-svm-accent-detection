@@ -3,6 +3,7 @@
 This code reproduces the material presented in the report at the link [LINK]
 
 It contains the following python files:
+- `main.ppynb`: notebook file, run this to produce full results in terms of summary tables and images.
 - `main.py`: main file, run this to produce full results in terms of summary tables and images.
 - `nested_CV.py`: contains function for running nested cross validation.
 - `traintest.py`: contains function for running full model selection, for both simple and Bagging model.
