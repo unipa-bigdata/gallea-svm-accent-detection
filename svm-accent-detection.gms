@@ -6,7 +6,9 @@ PARAMETER
         Kargs(*,*)
         TrainingData(*,*);
 
-$call gdxxrw.exe data/accent-mfcc-data-1.xlsx par=TrainingData rng=train!A1:O181 set=TrainingIndex rng=trainingIndex!A2:A181 rdim=1 set=FeatureIndex rng=featureIndex!A2:A13 rdim=1 par=RbfKernelArguments rng=RbfKernelArguments!A1:FY181
+$ONTEXT
+$call gdxxrw.exe accent-mfcc-data-1.xlsx par=TrainingData rng=train!A1:O181 set=TrainingIndex rng=trainingIndex!A2:A181 rdim=1 set=FeatureIndex rng=featureIndex!A2:A13 rdim=1 par=RbfKernelArguments rng=RbfKernelArguments!A1:FY181
+$OFFTEXT
 
 $GDXIN accent-mfcc-data-1.gdx
 $LOAD TrainingData, TrainingIndex, FeatureIndex, Kargs=RbfKernelArguments
@@ -42,6 +44,17 @@ $OFFTEXT
 POSITIVE VARIABLE
          lambda(i) "Variabili duali";
 
+SCALAR
+    C "Penalizzazione delle violazioni";
+
+C = 10.0;
+
+VARIABLE
+         lambda(i) "Viariabli duali"
+         ;
+lambda.LO(i) = 0;
+lambda.UP(i) = C;
+
 VARIABLE
          z "Funzione obiettivo";
 
@@ -58,30 +71,33 @@ MODEL DualSVM /ALL/;
 
 SOLVE DualSVM MAXIMIZING z USING NLP;
 
-DISPLAY
-         lambda.L;
+SCALAR Margin;
+
+Margin = 1.0 / SQRT(z.L);
+
+DISPLAY lambda.L, Margin;
 
 
-PARAMETERS
-         numberOfData
-         successValue
-         b;
+PARAMETER
+    b,
+    w(n),
+    margin
+    ;
 
-LOOP(i$(lambda.L(i) > 0),
+w(n) = sum(i, y(i) * lambda.L(i) * x(i, n));
 
-         b = (1.0/y(i)) - SUM(j,lambda.L(j) * y(j) * K(i,j));
+LOOP (i$(lambda.L(i) > 0),
+    b = 1 / y(i) - sum(n, w(n) * x(i, n));
 );
 
-DISPLAY b;
+margin = 1 / sqrt(sum(n , sqr(w(n))));
+
+
+DISPLAY w, b, margin;
 
 PARAMETER TrainingSignal(i);
 
 TrainingSignal(i) = y(i) * SIGN( SUM(j, lambda.L(j) * y(j) * K(i,j)) + b );
 
-successValue = SUM(i, TrainingSignal(i));
-
-numberOfData = CARD(i);
 
 DISPLAY TrainingSignal;
-
-DISPLAY successValue,numberOfData;
