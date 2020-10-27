@@ -4,13 +4,13 @@ from sklearn.ensemble import BaggingClassifier
 
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV, KFold
-from sklearn.metrics import accuracy_score, classification_report, plot_confusion_matrix, plot_roc_curve, plot_precision_recall_curve
+from sklearn.metrics import accuracy_score, classification_report, plot_confusion_matrix, plot_roc_curve, \
+    plot_precision_recall_curve
 
 import matplotlib.pyplot as plt
 
 
-def trainAndTest(TrainDF, TestDF, y_col, normalize = True):
-
+def trainAndTest(TrainDF, TestDF, y_col, normalize=True):
     binary = len(set(TrainDF[y_col])) == 2
 
     X_Train = np.array(TrainDF.drop(columns=[y_col], axis=1).to_numpy())
@@ -40,7 +40,6 @@ def trainAndTest(TrainDF, TestDF, y_col, normalize = True):
                    decision_function_shape='ovr',
                    class_weight='balanced')
 
-
     gridSearch = GridSearchCV(svmModel,
                               gridHyperPar,
                               scoring='accuracy',
@@ -59,8 +58,9 @@ def trainAndTest(TrainDF, TestDF, y_col, normalize = True):
 
     score = accuracy_score(y_Test, y_Predictions)
 
-    print('Single Model: Normalization = %r, Accuracy = %.3f, Best Hyper Parameter C = %.3f Best Hyper Parameter Gamma = %.5f' % (
-        normalize, score, bestHyperParameterC, bestHyperParameterGamma))
+    print(
+        'Single Model: Normalization = %r, Accuracy = %.3f, Best Hyper Parameter C = %.3f Best Hyper Parameter Gamma = %.5f' % (
+            normalize, score, bestHyperParameterC, bestHyperParameterGamma))
 
     # Plot non-normalized confusion matrix
 
@@ -79,9 +79,7 @@ def trainAndTest(TrainDF, TestDF, y_col, normalize = True):
         plot_confusion_matrix(best_model, X_Test, y_Test)
         plt.savefig(f'SVM-Accent-confusion{"-normalized" if normalize else ""}.png')
 
-
-
-    bagging_model = BaggingClassifier(base_estimator=gridSearch, n_estimators=30, random_state=314, n_jobs=4)\
+    bagging_model = BaggingClassifier(base_estimator=gridSearch, n_estimators=30, random_state=314, n_jobs=4) \
         .fit(X_Train, y_Train.ravel())
 
     y_Predictions = bagging_model.predict(X_Test)

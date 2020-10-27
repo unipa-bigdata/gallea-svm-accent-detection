@@ -4,7 +4,7 @@ from sklearn.model_selection import GridSearchCV, cross_val_score, KFold
 import numpy as np
 
 
-def nestedCv(df, y_col, binary = False):
+def nestedCv(df, y_col, binary=False):
     X = np.array(df.drop(columns=[y_col], axis=1).to_numpy())
 
     y = np.array(df[[y_col]].to_numpy().ravel())
@@ -29,8 +29,6 @@ def nestedCv(df, y_col, binary = False):
                         {'kernel': ['sigmoid'], 'gamma': [1, 1e-1, 1e-2, 1e-3, 1e-4], 'coef0': [0, 0.01, 0.1, 1]},
                         {'kernel': ['linear']}]
 
-
-
     # Loop for each trial
     for i in range(NUM_TRIALS):
         # Choose cross-validation techniques for the inner and outer loops,
@@ -54,7 +52,7 @@ def nestedCv(df, y_col, binary = False):
         innear_mean = inner_score.mean()
         inner_dev = inner_score.std()
 
-        print(f"Trial {i+1} of {NUM_TRIALS}: mean score: {innear_mean:3f} score std.dev: {inner_dev:3f}")
+        print(f"Trial {i + 1} of {NUM_TRIALS}: mean score: {innear_mean:3f} score std.dev: {inner_dev:3f}")
 
         # means = clf.cv_results_['mean_test_score']
         # stds = clf.cv_results_['std_test_score']
