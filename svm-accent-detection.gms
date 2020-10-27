@@ -41,22 +41,19 @@ $ONTEXT
 K(i,j) = Kargs(i,j);
 $OFFTEXT
 
-POSITIVE VARIABLE
-         lambda(i) "Variabili duali";
 
 SCALAR
-    C "Penalizzazione delle violazioni";
+    C "Violation penalization";
 
 C = 10.0;
 
 VARIABLE
-         lambda(i) "Viariabli duali"
-         ;
-lambda.LO(i) = 0;
-lambda.UP(i) = C;
+    lambda(i) "Dual variables";
+    lambda.LO(i) = 0;
+    lambda.UP(i) = C;
 
 VARIABLE
-         z "Funzione obiettivo";
+         z "Objective function";
 
 EQUATION
          LagrangianEq
