@@ -7,6 +7,7 @@ It contains the following python files:
 - `main.py`: main file, run this to produce full results in terms of summary tables and images.
 - `nested_CV.py`: contains function for running nested cross validation.
 - `traintest.py`: contains function for running full model selection, for both simple and Bagging model.
+- `explain.py`: contains function for running model explaination using SHAP framework.
 
 Additionally it contains the following GAMS file:
 - `svm-accent-detection.gms`: GAMS model for SVM problem solution using project dataset.
