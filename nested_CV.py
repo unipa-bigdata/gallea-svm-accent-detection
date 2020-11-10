@@ -12,13 +12,6 @@ def nestedCv(df, y_col, binary=False):
     # Number of random trials
     NUM_TRIALS = 30
 
-    # Set up possible values of parameters to optimize over
-    p_grid = {"C": [1, 10, 100],
-              "gamma": [.01, .1]}
-
-    # We will use a Support Vector Classifier with "rbf" kernel
-    svm = SVC(kernel="rbf")
-
     # Arrays to store scores
     non_nested_scores = np.zeros(NUM_TRIALS)
     nested_scores = np.zeros(NUM_TRIALS)

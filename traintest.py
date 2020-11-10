@@ -1,4 +1,5 @@
 import numpy as np
+
 from sklearn import preprocessing
 from sklearn.ensemble import BaggingClassifier
 
@@ -98,3 +99,5 @@ def trainAndTest(TrainDF, TestDF, y_col, normalize=True):
     else:
         plot_confusion_matrix(bagging_model, X_Test, y_Test)
         plt.savefig(f'SVM-Accent-confusion-bagging{"-normalized" if normalize else ""}.png')
+
+    return best_model

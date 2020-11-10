@@ -1,5 +1,6 @@
 from nested_CV import nestedCv
 from traintest import trainAndTest
+from explain import explain
 from utils import loadData, convertLabelsForBinaryClassification
 
 if __name__ == '__main__':
@@ -14,19 +15,25 @@ if __name__ == '__main__':
 
     # Perform training and testing for NOT normalized binary classification
     # without and with Bagging
-    trainAndTest(TrainDF=TrainDF_b, TestDF=TestDF_b, y_col="language", normalize=False)
+    svm = trainAndTest(TrainDF=TrainDF_b, TestDF=TestDF_b, y_col="language", normalize=False)
 
     # Perform training and testing for normalized binary classification
     # without and with Bagging
-    trainAndTest(TrainDF=TrainDF_b, TestDF=TestDF_b, y_col="language", normalize=True)
+    svm = trainAndTest(TrainDF=TrainDF_b, TestDF=TestDF_b, y_col="language", normalize=True)
 
     # Perform nested cv for multi-class classification
     nestedCv(df=TrainDF, y_col="language")
 
     # Perform training and testing for NOT normalized multi-class classification
     # without and with Bagging
-    trainAndTest(TrainDF=TrainDF, TestDF=TestDF, y_col="language", normalize=False)
+    svm = trainAndTest(TrainDF=TrainDF, TestDF=TestDF, y_col="language", normalize=False)
+
+    # Model explanation, very slow
+    explain(model=svm, TrainDF=TrainDF, TestDF=TestDF_b, y_col="language", normalize=False)
 
     # Perform training and testing for NOT normalized multi-class classification
     # without and with Bagging
-    trainAndTest(TrainDF=TrainDF, TestDF=TestDF, y_col="language", normalize=True)
+    svm = trainAndTest(TrainDF=TrainDF, TestDF=TestDF, y_col="language", normalize=True)
+
+    # Model explanation, very slow
+    explain(model=svm, TrainDF=TrainDF, TestDF=TestDF_b, y_col="language", normalize=True)
